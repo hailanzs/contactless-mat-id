@@ -21,6 +21,15 @@ In order to train with the default commands, run:
 ```
 The default arguments are placed in utility.py. 
 
+If you would like to change any paramters, the listed arguments are in utility in the function train_options(). Simply run the command:
+```
+python nn/train.py --<option_listed> <value_given>
+```
+For example, to change the dataset split you may run:
+```
+python nn/train.py --environment different
+```
+
 ## Viewing Results
 
 ## (Extra) Data Capture and Processing Pipeline
