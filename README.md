@@ -36,7 +36,7 @@ python nn/train.py --objects "aluminum, brass, copper, steel"
 If you would like to only test a given dataset on an already trained model, run train.py with the experiment name created by train.py (can be found in results/, metadata/ or logs/) and the folder to the new experiments to test. More arguments can be found in utility.py.
 ```
 python nn/train.py --exp_name <exp_name_to_test> --test_dates <new_test_dates>
-
+```
 ## Viewing Results
 TODO: Sohrab add the viewing results info.
 
