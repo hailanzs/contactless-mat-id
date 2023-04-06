@@ -1,5 +1,6 @@
 # Contactless Material Identification with Millimeter Wave Vibrometry
-This is the processing and training code for RFVibe. 
+This repository contains the training, processing and data capture code for RFVibe. More detailed installation and running instructions are detailed below.
+
 ## Requirements
 - Computer with GPU that runs Cuda
 - at leaset 50 GB of space for dataset
