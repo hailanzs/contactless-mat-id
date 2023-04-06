@@ -57,7 +57,10 @@ pip install -r requirements.txt
 ### Experiment Set up
 In order to set up the experiments, connect the 1843BOOST Evaluation Board and DCA1000 as instructed on TI's user guide. In addition, download and install mmWave Studio to program the mmWave device. 
 
-1. Connect the mmWave device and speaker to the same computer. Set up the experiments as shown in the picture below. TODO: add pic
+1. Connect the mmWave device and speaker to the same computer. Set up the experiments as shown in the picture below. 
+
+![alt text](https://github.com/hshanbha/contactless-mat-id/blob/main/setup.png?raw=true)
+
 2. Turn on mmWave Studio and run *contactless-material-id/data-capture/run.lua*. Make sure to change the hardcoded COM port to match the one of the system. 
 3. Once the radar is capture data, exit the mmWave Studio window and open Task Manager and kill the process starting with DCA1000. 
 4. Open *contactless-material-id/data-capture/prod-cons-capture.lua*, under the main function, change the number of **iterations** to the desired number, change the **exp_object** to the label for the current object, and **date** to the folder name to save the current set of experiments. 
