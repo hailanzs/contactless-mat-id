@@ -34,7 +34,7 @@ python nn/train.py --environment different
 ## Viewing Results
 TODO: Sohrab add the viewing results info.
 
-## (Extra) Data Capture and Processing Pipeline
+## Data Capture and Processing Pipeline
 This is the data capture and processing for the experiments. 
 
 ### Hardware Installation Instructions
@@ -71,5 +71,6 @@ In order to set up the experiments, connect the 1843BOOST Evaluation Board and D
 ### Data Processing Pipeline
 (Optionally, but recommened): Calibrate the XWR1843BOOST radar and input the calibration matrix to *contactless-material-id/data-capture/save_calib_data.m*
 1. Add the date to the top of *contactless-material-id/data-capture/save_calib_data.m*
-2. Run *contactless-material-id/data-capture/save_calib_data.m*.
+2. Run *contactless-material-id/data-capture/save_calib_data.m* to calibrate data and reformat into channels. 
 
+Note: To process the new data, make sure to add the folder name to the list of train, validation or test dates listed in *utility.py*.
