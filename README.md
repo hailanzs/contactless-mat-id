@@ -28,7 +28,7 @@ python nn/train.py --<option_listed> <value_given>
 ```
 For example, to change the dataset split you may run:
 ```
-python nn/train.py --environment different
+python nn/train.py --environment different 
 ```
 
 ## Viewing Results
