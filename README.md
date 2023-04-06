@@ -41,7 +41,7 @@ python nn/train.py --exp_name <exp_name_to_test> --test_dates <new_test_dates>
 TODO: Sohrab add the viewing results info.
 
 ## Data Capture and Processing Pipeline
-This is the data capture and processing for the experiments. 
+Here we describe the process for capturing new experiments to run RFVibe's network on. The experiment pipeline is as follow: setup (hardware and software), data collection, and post-processing.
 
 ### Hardware Installation Instructions
 The following pieces of hardware are required to replicate our experiments:
@@ -62,7 +62,7 @@ cd openradar
 pip install -r requirements.txt
 ```
 
-### Experiment Set up
+### Experiment Set Up
 In order to set up the experiments, connect the 1843BOOST Evaluation Board and DCA1000 as instructed on TI's user guide. In addition, download and install mmWave Studio to program the mmWave device. 
 
 1. Connect the mmWave device and speaker to the same computer. Set up the experiments similar to the setups shown in the picture below. 
