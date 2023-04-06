@@ -16,7 +16,7 @@ pip install -r requirements.txt
 ```
 3. Download dataset from [this Google Drive](https://drive.google.com/drive/folders/1QHKSPK9nfHmPVjcHXf1ZVb9CegpqqyEz?usp=sharing), unzip and place in *contactless-material-id/*.
 ## Training
-In order to train with the default commands, run:
+In order to train with the default commands for the main results, run:
 ```
 ./scripts/run_command.bash
 ```
@@ -26,10 +26,16 @@ If you would like to change any paramters, the listed arguments are in utility i
 ```
 python nn/train.py --<option_listed> <value_given>
 ```
-For example, to change the dataset split you may run:
+For example, to change the dataset split or the objects to train and test on, you may run:
 ```
 python nn/train.py --environment different 
+python nn/train.py --objects "aluminum, brass, copper, steel"
 ```
+
+## Testing
+If you would like to only test a given dataset on an already trained model, run train.py with the experiment name created by train.py (can be found in results/, metadata/ or logs/) and the folder to the new experiments to test. More arguments can be found in utility.py.
+```
+python nn/train.py --exp_name <exp_name_to_test> --test_dates <new_test_dates>
 
 ## Viewing Results
 TODO: Sohrab add the viewing results info.
