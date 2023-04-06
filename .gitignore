@@ -4,3 +4,4 @@ nn/metadata/
 nn/results/
 nn/logs/
 nn/checkpoints
+*.DS_STORE
