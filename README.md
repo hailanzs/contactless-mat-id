@@ -13,7 +13,7 @@ git clone https://gitlab.engr.illinois.edu/hshanbha/contactless-material-id.git
 cd contactless-material-id
 pip install -r requirements.txt
 ```
-3. Download dataset from https://drive.google.com/drive/folders/1QHKSPK9nfHmPVjcHXf1ZVb9CegpqqyEz?usp=sharing, unzip and place in *contactless-material-id/*.
+3. Download dataset from (this Google Drive)[https://drive.google.com/drive/folders/1QHKSPK9nfHmPVjcHXf1ZVb9CegpqqyEz?usp=sharing], unzip and place in *contactless-material-id/*.
 ## Training
 In order to train with the default commands, run:
 ```
