@@ -59,7 +59,7 @@ In order to set up the experiments, connect the 1843BOOST Evaluation Board and D
 
 1. Connect the mmWave device and speaker to the same computer. Set up the experiments as shown in the picture below. 
 
-![alt text](https://github.com/hshanbha/contactless-mat-id/blob/main/setup.png?raw=true)
+![plot](https://github.com/hshanbha/contactless-mat-id/blob/main/images/setup.png?raw=true)
 
 2. Turn on mmWave Studio and run *contactless-material-id/data-capture/run.lua*. Make sure to change the hardcoded COM port to match the one of the system. 
 3. Once the radar is capture data, exit the mmWave Studio window and open Task Manager and kill the process starting with DCA1000. 
