@@ -31,6 +31,7 @@ python nn/train.py --environment different
 ```
 
 ## Viewing Results
+TODO: Sohrab add the viewing results info.
 
 ## (Extra) Data Capture and Processing Pipeline
 This is the data capture and processing for the experiments. 
@@ -57,7 +58,7 @@ pip install -r requirements.txt
 ### Experiment Set up
 In order to set up the experiments, connect the 1843BOOST Evaluation Board and DCA1000 as instructed on TI's user guide. In addition, download and install mmWave Studio to program the mmWave device. 
 
-1. Connect the mmWave device and speaker to the same computer. Set up the experiments as shown in the picture below. 
+1. Connect the mmWave device and speaker to the same computer. Set up the experiments similar to the setups shown in the picture below. 
 
 ![plot](https://github.com/hshanbha/contactless-mat-id/blob/main/images/setup.png?raw=true)
 
