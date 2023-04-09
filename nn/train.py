@@ -181,10 +181,7 @@ if __name__ == "__main__":
             utility.create_dir(os.path.join(dir_path,"logs", exp_name))
             utility.create_dir(os.path.join(dir_path,"logs", exp_name, str(num_reps)))
             wrong_names = [val for sublist in wrong_names for val in sublist]
-            sio.savemat(dir_path,"logs/" + exp_name + "/" + str(num_reps) + '/' + str(epoch) 
-                        + ".mat", {'t_loss': train_losses, 'v_loss': val_losses, 't_accu': train_accu, 'v_accu': valid_accu,
-                                'wrong_names': wrong_names
-                                } )
+            sio.savemat(os.path.join(dir_path,"logs/" + exp_name + "/" + str(num_reps) + '/' + str(epoch) + ".mat"), {'t_loss': train_losses, 'v_loss': val_losses, 't_accu': train_accu, 'v_accu': valid_accu,'wrong_names': wrong_names} )
 
             # test on validation dataset 
             test_path = os.path.join(dir_path,"results", exp_name)
@@ -205,7 +202,8 @@ if __name__ == "__main__":
                         'x1':x1.detach().cpu().numpy(),
                         'x2':x2.detach().cpu().numpy(),
                         'x3':x3.detach().cpu().numpy(),
-                        'output':output.detach().cpu().numpy(),
+                        # 'output':output.detach().cpu().numpy(),
+                        'output':output,
                         'gt':groundtruth.detach().cpu().numpy(),
                         'name': data['name'],
                         'objects': data['obj']
