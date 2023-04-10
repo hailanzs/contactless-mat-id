@@ -14,7 +14,7 @@ git clone https://gitlab.engr.illinois.edu/hshanbha/contactless-material-id.git
 cd contactless-material-id
 pip install -r requirements.txt
 ```
-3. Download dataset from [this Google Drive](https://drive.google.com/drive/folders/1QHKSPK9nfHmPVjcHXf1ZVb9CegpqqyEz?usp=sharing), unzip and place in *contactless-material-id/nn/*.
+3. Download dataset from [this Google Drive](https://drive.google.com/drive/folders/1QHKSPK9nfHmPVjcHXf1ZVb9CegpqqyEz?usp=sharing), unzip and place in *contactless-material-id/*.
 ## Training
 In order to train with the default commands for the main results, run:
 ```
@@ -38,7 +38,15 @@ If you would like to only test a given dataset on an already trained model, run 
 python nn/train.py --exp_name <exp_name_to_test> --test_dates <new_test_dates>
 ```
 ## Viewing Results
-TODO: Sohrab add the viewing results info.
+Copy and paste the new experiment name that is listed in the updated folders (can check any of metadata, results, logs and checkpoints folders), and input that as an argument for *processing/compute_aps.py*.
+```
+python metrics/compute_aps.py --exp_name <copied_experiment_name>
+```
+For example, 
+```
+python metrics/compute_aps.py --exp_name artifact_eval_2023_04_04-02_52_23
+```
+The averaged accuracy will be printed to the terminal for each catergory, depending on the training mode (objects, materials).
 
 ## Data Capture and Processing Pipeline
 Here we describe the process for capturing new experiments to run RFVibe's network on. The experiment pipeline is as follow: setup (hardware and software), data collection, and post-processing.

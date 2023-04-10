@@ -40,8 +40,11 @@ if __name__ == "__main__":
         output_size = 7
     
     
-    dir_path = os.path.dirname(os.path.realpath('nn/train.py'))
+    dir_path = os.path.dirname(os.path.realpath('README.md'))
+    with open(os.path.join(dir_path, 'scripts', 'exp_name.txt'), 'w') as f:
+        f.write(exp_name)
     dataroot = os.path.join(dir_path, 'processed_data')
+    dir_path = os.path.join(dir_path,'nn')
     # just for us
     dataroot = r"/home/synrg-sc1/Desktop/Sohrab_Mat_Sensing/mat_sensing_network/processed_data"
     if opt.environment == "same":
