@@ -69,7 +69,7 @@ if __name__ == "__main__":
                                         cutoff=opt.cutoff, batch_size=opt.batch_size, 
                                         sample_limit=opt.sample_limit,  train_for = train_for,
                                         feature_names=feature_names, objects_of_interest=objects, lim=30)
-    for num_reps in range(10):
+    for num_reps in range(opt.reps):
         print("\nstarting new rep: " + str(num_reps))
         # setting manual seed
         if opt.seed > -1:

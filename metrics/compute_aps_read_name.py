@@ -2,22 +2,27 @@ import os
 import scipy.io as sio
 import numpy as np
 from sklearn.metrics import average_precision_score
-import utility
+import sys
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+import nn.utility as utility
 from scipy.special import softmax
 import argparse
 
 
-dir_path = os.path.dirname(os.path.realpath('nn/train.py'))
-path_to_use = os.path.join(dir_path, 'results')
-opt = utility.view_metrics_options(parser=argparse.ArgumentParser(
+dir_path = os.path.dirname(os.path.realpath('README.md'))
+opt = utility.view_train_options(parser=argparse.ArgumentParser(
     formatter_class=argparse.ArgumentDefaultsHelpFormatter))
 
 # experiment name, dataset path, and logging
 with open(os.path.join(dir_path, 'scripts', 'exp_name.txt'), 'r') as f:
-    exp_name = f.readlines()
-
+    exp_name = str(f.readlines())[2:-2]
+print(exp_name)
+    
+dir_path = os.path.join(dir_path, 'nn')
+path_to_use = os.path.join(dir_path, 'results')
 all_aps, all_aps1, all_aps2, all_aps3, all_accs, all_accs1, all_accs2, all_accs3, = [], [], [], [], [], [], [], []
-for exp_rep in range(10):
+for exp_rep in range(1):
     metadata_path = os.path.join(dir_path,"metadata", exp_name, str(exp_rep), ".mat")
     opt = sio.loadmat(metadata_path)['opt']
     objects = utility.parse_objects(str(opt[0][0][8][0]))

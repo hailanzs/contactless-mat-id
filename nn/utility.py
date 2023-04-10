@@ -109,6 +109,7 @@ def train_options(parser):
     parser.add_argument("--test_dates", type=str, default='mar-17-7,mar-17-4, mar-18, mar-18-1, mar-18-4, mar-18-7, mar-2-4, mar-22-4, mar-22-5,  may-10, may-11-4, may-11-5, may-13, may-14, may-16-1, may-27-2, may-31-1,june-13-4,jun-13-5,june-13-6,june-14,june-14-2,june-14-3,june-14-4', help="comma seperated test dates")
     parser.add_argument("--environment", type=str, default='different', help="train/test on same or different environment")
     parser.add_argument("--fft_channels", type=int, default=5, help="number of fft channels, will depend on first feature")
+    parser.add_argument("--reps", type=int, default=10, help="number of repetitions to run the train")
     
     parser.add_argument("--sample_limit", type=int, default=10000, help="limit to the number of samlpes from each date")
     parser.add_argument("--feature_names", type=str, default="fft, mrf_squared, damp", help="comma separated feature names: 'fft' | 'pwelch' | 'stft' | 'mrf' | 'mrf_squared'")

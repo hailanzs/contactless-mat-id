@@ -1,15 +1,17 @@
 import os
 import scipy.io as sio
 import numpy as np
-import utility
+import sys
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+import nn.utility as utility
 import argparse
 
 dir_path = os.path.dirname(os.path.realpath('nn/train.py'))
 path_to_use = os.path.join(dir_path, 'results')
 opt = utility.view_metrics_options(parser=argparse.ArgumentParser(
     formatter_class=argparse.ArgumentDefaultsHelpFormatter))
-# experiment name, dataset path, and logging
-exp_name = utility.new_exp(opt.exp_name)
+exp_name = opt.exp_name
 
 all_aps, all_aps1, all_aps2, all_aps3, all_accs, all_accs1, all_accs2, all_accs3, = [], [], [], [], [], [], [], []
 

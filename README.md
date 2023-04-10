@@ -16,9 +16,13 @@ pip install -r requirements.txt
 ```
 3. Download dataset from [this Google Drive](https://drive.google.com/drive/folders/1QHKSPK9nfHmPVjcHXf1ZVb9CegpqqyEz?usp=sharing), unzip and place in *contactless-material-id/*.
 ## Training
-In order to train with the default commands for the main results, run:
+In order to train with the default commands for the main results, change permissions for the run script (needs to be done once):
 ```
-./scripts/run_command.bash
+chmod +x scripts/run_command.bash
+```
+Then run the bash script to run both material-wise classification and object-wise classification. 
+```
+./scripts/run_command.sh
 ```
 The default arguments are placed in utility.py. 
 
