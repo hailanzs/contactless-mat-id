@@ -425,15 +425,22 @@ def createDataset(dataroot="/media/synrg-sc1/HardDisk2-8TB/Mat_Sensing/backup/Bo
     fast_dataset = FastDataset(all_data, all_objects, all_names, objects)
     total_length = len(fast_dataset)
 
-    if val_samples > 0:
-        val_length = int(total_length * val_samples) - 1
-        test_length = val_length
+    if len(val_samples) > 2:
+        val_length = int(total_length * val_samples[1]) - 1
+        test_length = int(total_length * val_samples[2]) - 1
         train_length = total_length - val_length - test_length
         train_dataset, val_dataset, test_dataset = torch.utils.data.random_split(fast_dataset, [train_length, val_length, test_length])
         train_loader = data_utils.DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
         val_loader = data_utils.DataLoader(val_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
-        test_dataset = data_utils.DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
-        return train_loader, val_loader, test_dataset
+        test_loader = data_utils.DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+        return train_loader, val_loader, test_loader
+    elif len(val_samples) > 1:
+        val_length = int(total_length * val_samples[0]) - 1
+        test_length = total_length - val_length
+        val_dataset, test_dataset = torch.utils.data.random_split(fast_dataset, [val_length, test_length])
+        val_loader = data_utils.DataLoader(val_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+        test_loader = data_utils.DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
+        return val_loader, test_loader
     else:
         data_loader = data_utils.DataLoader(fast_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
         return data_loader

@@ -58,7 +58,7 @@ Here we describe the process for capturing new experiments to run RFVibe's netwo
 ### Hardware Installation Instructions
 The following pieces of hardware are required to replicate our experiments:
 - Klipsch Sub100 Subwoofer
-- TI's 1843BOOST Evaluation Board
+- TI's XWR1843BOOST Evaluation Board
 - DCA1000 Data Capture Board
 - Three separate surfaces (for the mmWave board, object of interest, and speaker)
 

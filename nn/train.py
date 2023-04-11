@@ -49,26 +49,26 @@ if __name__ == "__main__":
     dataroot = r"/home/synrg-sc1/Desktop/Sohrab_Mat_Sensing/mat_sensing_network/processed_data"
     if opt.environment == "same":
         train_loader,val_loader,test_loader = dataset.createDataset(dataroot=dataroot,dates=train_dates+val_dates+test_dates, input_len=250, 
-                                                normalize=False,val_samples=0.1,
+                                                normalize=False,val_samples=[0,0.1,0.1],
                                                 cutoff=opt.cutoff, batch_size=opt.batch_size,
                                                 sample_limit=opt.sample_limit, train_for = train_for,
-                                                feature_names=feature_names, objects_of_interest=objects, lim=(250+30+30))
+                                                feature_names=feature_names, objects_of_interest=objects, lim=(310+30+30))
     else:
         train_loader = dataset.createDataset(dataroot=dataroot,dates=train_dates, input_len=250, 
-                                            normalize=False,val_samples=0,
+                                            normalize=False,val_samples=[0],
                                             cutoff=opt.cutoff, batch_size=opt.batch_size,
                                             sample_limit=opt.sample_limit, train_for = train_for,
-                                            feature_names=feature_names, objects_of_interest=objects, lim=(250+30+30))
-        val_loader = dataset.createDataset(dataroot=dataroot,dates=val_dates, input_len=250,
-                                        normalize=False,val_samples=0, 
+                                            feature_names=feature_names, objects_of_interest=objects, lim=(310))
+        val_loader,test_loader = dataset.createDataset(dataroot=dataroot,dates=val_dates+test_dates, input_len=250,
+                                        normalize=False,val_samples=[0.5,0.5], 
                                         cutoff=opt.cutoff, batch_size=opt.batch_size, 
                                         sample_limit=opt.sample_limit,  train_for = train_for,
-                                        feature_names=feature_names, objects_of_interest=objects, lim=30)
-        test_loader = dataset.createDataset(dataroot=dataroot,dates=test_dates, input_len=250,
-                                        normalize=False,val_samples=0, 
-                                        cutoff=opt.cutoff, batch_size=opt.batch_size, 
-                                        sample_limit=opt.sample_limit,  train_for = train_for,
-                                        feature_names=feature_names, objects_of_interest=objects, lim=30)
+                                        feature_names=feature_names, objects_of_interest=objects, lim=100)
+        # test_loader = dataset.createDataset(dataroot=dataroot,dates=test_dates, input_len=250,
+        #                                 normalize=False,val_samples=[0,0.1,0.1], 
+        #                                 cutoff=opt.cutoff, batch_size=opt.batch_size, 
+        #                                 sample_limit=opt.sample_limit,  train_for = train_for,
+        #                                 feature_names=feature_names, objects_of_interest=objects, lim=30)
     for num_reps in range(opt.reps):
         print("\nstarting new rep: " + str(num_reps))
         # setting manual seed
@@ -117,8 +117,11 @@ if __name__ == "__main__":
                 x1, x2, x3, groundtruth, name = (X1).to(device, dtype=torch.float), (X2).to(device, dtype=torch.float), (X3).to(device, dtype=torch.float), data['Y'].to(device, dtype=torch.long), data['name']
 
                 optimizer.zero_grad()
+                
                 output, output1, output2, output3 = net(x1, x2, x3)
-
+                if(len(output.shape) <= 1):
+                    output, output1, output2, output3 = torch.reshape(output, (1, output_size)), torch.reshape(output1, (1, output_size)), torch.reshape(output2, (1, output_size)), torch.reshape(output3, (1, output_size))
+                    
                 loss0, loss1, loss2, loss3 = net.loss(output, groundtruth), net.loss(output1, groundtruth), net.loss(output2, groundtruth), net.loss(output3, groundtruth)
                 loss = (loss_weights[0] * loss0 +  loss_weights[1] * loss1 + loss_weights[2] * loss2 + loss_weights[3] * loss3) / np.sum(loss_weights)
 
@@ -153,6 +156,8 @@ if __name__ == "__main__":
 
                 with torch.no_grad():
                     output, output1, output2, output3  = net(x1, x2, x3)
+                    if(len(output.shape) <= 1):
+                        output, output1, output2, output3 = torch.reshape(output, (1, output_size)), torch.reshape(output1, (1, output_size)), torch.reshape(output2, (1, output_size)), torch.reshape(output3, (1, output_size))
                     loss0, loss1, loss2, loss3 = net.loss(output, groundtruth), net.loss(output1, groundtruth), net.loss(output2, groundtruth), net.loss(output3, groundtruth)
                     loss = (loss_weights[0] * loss0 +  loss_weights[1] * loss1 + loss_weights[2] * loss2 + loss_weights[3] * loss3) / np.sum(loss_weights)
 
@@ -199,6 +204,8 @@ if __name__ == "__main__":
 
                 with torch.no_grad():
                     output, output1, output2, output3 = net(x1, x2, x3)
+                    if(len(output.shape) <= 1):
+                        output, output1, output2, output3 = torch.reshape(output, (1, output_size)), torch.reshape(output1, (1, output_size)), torch.reshape(output2, (1, output_size)), torch.reshape(output3, (1, output_size))
 
                     sio.savemat(test_path + "/" + str(ii) + ".mat", mdict={
                         'x1':x1.detach().cpu().numpy(),
