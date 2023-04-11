@@ -21,11 +21,11 @@ opt = utility.train_options(parser=argparse.ArgumentParser(
     formatter_class=argparse.ArgumentDefaultsHelpFormatter))
 
 all_aps, all_aps1, all_aps2, all_aps3, all_accs, all_accs1, all_accs2, all_accs3, = [], [], [], [], [], [], [], []
-for exp_rep in range(10):
-    metadata_path = os.path.join(dir_path,"metadata", exp_name, str(exp_rep), ".mat")
-    opt = sio.loadmat(metadata_path)['opt']
-    objects = utility.parse_objects(str(opt[0][0][8][0]))
-    train_for = opt.train_for
+metadata_path = os.path.join(dir_path,"metadata", exp_name, str(0), ".mat")
+opt = sio.loadmat(metadata_path)['opt']
+objects = utility.parse_objects(str(opt[0][0][8][0]))
+train_for = opt.train_for
+for exp_rep in range(opt.reps):
     if(train_for == 'Y'):
         output_size = len(objects)
     elif(train_for == 'metal'):

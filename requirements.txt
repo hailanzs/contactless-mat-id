@@ -4,17 +4,10 @@ scipy
 utility
 torch
 argparse
-os
-glob
 statistics
-random
-csv
 sklearn
 natsort
 logging
-clv
 multiprocessing
-time
-datetime
 heapq
-vlc
+# vlc # uncomment to run sounds in data capture

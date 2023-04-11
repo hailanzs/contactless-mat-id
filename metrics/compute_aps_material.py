@@ -16,11 +16,9 @@ exp_name = opt.exp_name
 all_aps, all_aps1, all_aps2, all_aps3, all_accs, all_accs1, all_accs2, all_accs3, = [], [], [], [], [], [], [], []
 
 
-for exp_rep in range(10):
-    if(exp_rep == 2 or exp_rep == 7 or exp_rep == 5):
-        continue
-    metadata_path = os.path.join(dir_path,"metadata", exp_name, str(exp_rep), ".mat")
-    opt = sio.loadmat(metadata_path)['opt']
+metadata_path = os.path.join(dir_path,"metadata", exp_name, str(0), ".mat")
+opt = sio.loadmat(metadata_path)['opt']
+for exp_rep in range(opt.reps):
     # print(opt)
     objects = utility.parse_objects(str(opt[0][0][8][0]))
     outputs = list(range(0, len(objects)))

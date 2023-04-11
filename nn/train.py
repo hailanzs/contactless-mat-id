@@ -48,7 +48,7 @@ if __name__ == "__main__":
     # just for us
     dataroot = r"/home/synrg-sc1/Desktop/Sohrab_Mat_Sensing/mat_sensing_network/processed_data"
     if opt.environment == "same":
-        train_loader,val_loader,test_loader = dataset.createDataset(dataroot=dataroot,dates=train_dates, input_len=250, 
+        train_loader,val_loader,test_loader = dataset.createDataset(dataroot=dataroot,dates=train_dates+val_dates+test_dates, input_len=250, 
                                                 normalize=False,val_samples=0.1,
                                                 cutoff=opt.cutoff, batch_size=opt.batch_size,
                                                 sample_limit=opt.sample_limit, train_for = train_for,
@@ -80,7 +80,6 @@ if __name__ == "__main__":
 
         # define model
         device = utility.get_device()
-        print(output_size)
         
         net = SimpleModel(input_size_fft=1, input_size_mrf=25, input_size_phase=3250, 
                           output_size=output_size, fft_channels = int(opt.fft_channels), first_channels=opt.first_channels, p=float(opt.p), device=device)
@@ -199,14 +198,14 @@ if __name__ == "__main__":
                 x1, x2, x3, groundtruth, name = (X1).to(device, dtype=torch.float), (X2).to(device, dtype=torch.float), (X3).to(device, dtype=torch.float), data['Y'].to(device, dtype=torch.long), data['name']
 
                 with torch.no_grad():
-                    output = net(x1, x2, x3)
+                    output, output1, output2, output3 = net(x1, x2, x3)
 
                     sio.savemat(test_path + "/" + str(ii) + ".mat", mdict={
                         'x1':x1.detach().cpu().numpy(),
                         'x2':x2.detach().cpu().numpy(),
                         'x3':x3.detach().cpu().numpy(),
-                        # 'output':output.detach().cpu().numpy(),
-                        'output':output,
+                        'output':output.detach().cpu().numpy(),
+                        # 'output':output,
                         'gt':groundtruth.detach().cpu().numpy(),
                         'name': data['name'],
                         'objects': data['obj']
