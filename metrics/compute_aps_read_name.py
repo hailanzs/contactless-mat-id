@@ -22,7 +22,7 @@ path_to_use = os.path.join(dir_path, 'results')
 all_aps, all_accs = [], []
 metadata_path = os.path.join(dir_path,"metadata", exp_name, str(0), ".mat")
 opt = sio.loadmat(metadata_path)['opt']
-objects = utility.parse_objects(str(opt[0][0][8][0]))
+objects = utility.parse_objects(str(opt['objects'][0][0][0]))
 train_for = opt['train_for'][0][0][0]
 for exp_rep in range(opt['reps'][0][0][0][0]):
     if(train_for == 'Y'):
