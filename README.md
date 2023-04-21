@@ -7,7 +7,7 @@ This repository contains the training, processing and data capture code for RFVi
 ## Software Installation Instructions
 1. Clone and install the repository:
 ```
-git clone https://gitlab.engr.illinois.edu/hshanbha/contactless-material-id.git
+git clone git@github.com:hshanbha/contactless-mat-id.git
 ```
 2. Install the required python packages:
 ```
