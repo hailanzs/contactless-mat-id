@@ -41,7 +41,7 @@ If you would like to only test a given dataset on an already trained model, run 
 ```
 python nn/test.py --exp_name <exp_name_to_test> --test_dates <new_test_dates>
 ```
-In addition, we have added pre-trained models to evaluate as needed. Bash scripts are provided to automatically run the main results and view metrics:
+In addition, we have added pre-trained models to evaluate as needed in nn/checkpoints. Bash scripts are provided to automatically run the main results and view metrics:
 ```
 ./scripts/test_command.sh
 ```
