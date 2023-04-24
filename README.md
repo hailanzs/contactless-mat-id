@@ -19,6 +19,7 @@ pip install -r requirements.txt
 In order to train with the default commands for the main results, change permissions for the run script (needs to be done once):
 ```
 chmod +x scripts/run_command.bash
+chmod +x scripts/test_command.bash
 ```
 Then run the bash script to run both material-wise classification and object-wise classification. 
 ```
@@ -37,7 +38,7 @@ python nn/train.py --objects "aluminum, brass, copper, steel"
 ```
 
 ## Testing
-If you would like to only test a given dataset on an already trained model, run train.py with the experiment name created by train.py (can be found in results/, metadata/ or logs/) and the folder to the new experiments to test. More arguments can be found in utility.py.
+If you would like to only test a given dataset on an already trained model, run train.py with the experiment name created by train.py (can be found in results/, metadata/ or logs/) and the folder to the new experiments to test. More arguments can be found in utility.py in the function test_options().
 ```
 python nn/test.py --exp_name <exp_name_to_test> --test_dates <new_test_dates>
 ```
@@ -47,7 +48,7 @@ In addition, we have added pre-trained models to evaluate as needed in nn/checkp
 ```
 
 ## Viewing Results
-Copy and paste the new experiment name that is listed in the updated folders (can check any of metadata, results, logs and checkpoints folders), and input that as an argument for *processing/compute_aps.py*.
+Copy and paste the new experiment name that is listed in the updated folders (can check any of metadata, results, logs and checkpoints folders), and input that as an argument for *processing/compute_aps.py*. The rest of the arguments can be viewed in nn/utility.py in the view_metrics_options() function.
 ```
 python metrics/compute_aps.py --exp_name <copied_experiment_name>
 ```
