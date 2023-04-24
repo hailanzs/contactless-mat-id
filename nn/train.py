@@ -38,6 +38,7 @@ if __name__ == "__main__":
         output_size = 2
     elif(train_for == 'material'):
         output_size = 7
+    print(output_size)
     
     
     dir_path = os.path.dirname(os.path.realpath('README.md'))
@@ -46,23 +47,44 @@ if __name__ == "__main__":
     dataroot = os.path.join(dir_path, 'processed_data')
     dir_path = os.path.join(dir_path,'nn')
     
-    if opt.environment == "same":
-        train_loader,val_loader,test_loader = dataset.createDataset(dataroot=dataroot,dates=train_dates+val_dates+test_dates, input_len=250, 
-                                                normalize=False,val_samples=[0,0.1,0.1],
-                                                cutoff=opt.cutoff, batch_size=opt.batch_size,
-                                                sample_limit=opt.sample_limit, train_for = train_for,
-                                                feature_names=feature_names, objects_of_interest=objects, lim=(310+30+30))
-    else:
+    if opt.environment == "same": # done
+        test_dates_ = test_dates
+        test_dates = val_dates
+        val_dates = test_dates_
+        test_dates__ = opt.test_dates
+        opt.test_dates = opt.val_dates
+        opt.val_dates = test_dates__
+        train_loader = dataset.createDataset(dataroot=dataroot,dates=train_dates, input_len=250, 
+                                            normalize=False,val_samples=[0],
+                                            cutoff=opt.cutoff, batch_size=opt.batch_size,
+                                            sample_limit=opt.sample_limit, train_for = train_for,
+                                            feature_names=feature_names, objects_of_interest=objects, lim=(400))
+        val_loader = dataset.createDataset(dataroot=dataroot,dates=val_dates, input_len=250,
+                                        normalize=False,val_samples=[0], 
+                                        cutoff=opt.cutoff, batch_size=opt.batch_size,
+                                        sample_limit=opt.sample_limit,  train_for = train_for,
+                                        feature_names=feature_names, objects_of_interest=objects, lim=60)
+        test_loader = dataset.createDataset(dataroot=dataroot,dates=test_dates, input_len=250,
+                                        normalize=False,val_samples=[0], 
+                                        cutoff=opt.cutoff, batch_size=opt.batch_size,
+                                        sample_limit=opt.sample_limit,  train_for = train_for,
+                                        feature_names=feature_names, objects_of_interest=objects, lim=30)
+    if opt.environment == "different": # done
         train_loader = dataset.createDataset(dataroot=dataroot,dates=train_dates, input_len=250, 
                                             normalize=False,val_samples=[0],
                                             cutoff=opt.cutoff, batch_size=opt.batch_size,
                                             sample_limit=opt.sample_limit, train_for = train_for,
                                             feature_names=feature_names, objects_of_interest=objects, lim=(310))
-        val_loader,test_loader = dataset.createDataset(dataroot=dataroot,dates=val_dates+test_dates, input_len=250,
-                                        normalize=False,val_samples=[0.5,0.5], 
-                                        cutoff=opt.cutoff, batch_size=opt.batch_size, 
+        val_loader = dataset.createDataset(dataroot=dataroot,dates=val_dates, input_len=250,
+                                        normalize=False,val_samples=[0], 
+                                        cutoff=opt.cutoff, batch_size=opt.batch_size,
                                         sample_limit=opt.sample_limit,  train_for = train_for,
                                         feature_names=feature_names, objects_of_interest=objects, lim=60)
+        test_loader = dataset.createDataset(dataroot=dataroot,dates=test_dates, input_len=250,
+                                        normalize=False,val_samples=[0], 
+                                        cutoff=opt.cutoff, batch_size=opt.batch_size,
+                                        sample_limit=opt.sample_limit,  train_for = train_for,
+                                        feature_names=feature_names, objects_of_interest=objects, lim=30)
     for num_reps in range(opt.reps):
         print("\nstarting new rep: " + str(num_reps))
         # setting manual seed
