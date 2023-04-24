@@ -48,9 +48,9 @@ In addition, we have added pre-trained models to evaluate as needed in nn/checkp
 ```
 
 ## Viewing Results
-Copy and paste the new experiment name that is listed in the updated folders (can check any of metadata, results, logs and checkpoints folders), and input that as an argument for *processing/compute_aps.py*. The rest of the arguments can be viewed in nn/utility.py in the view_metrics_options() function.
+Copy and paste the new experiment name that is listed in the updated folders (can check any of metadata, results, logs and checkpoints folders), and input that as an argument for *processing/compute_aps.py*. You can also specify whether to view the results from when the model is evaluated by the test dataset that is specified in nn/train.py or the results from the test dataset run in nn/test.py. The rest of the arguments can be viewed in nn/utility.py in the view_metrics_options() function.
 ```
-python metrics/compute_aps.py --exp_name <copied_experiment_name>
+python metrics/compute_aps.py --exp_name <copied_experiment_name> --tested_results <1 or 0 >
 ```
 For example, 
 ```
