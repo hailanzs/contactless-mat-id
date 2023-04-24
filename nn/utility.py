@@ -24,10 +24,11 @@ def new_exp(name):
     create_dir(os.path.join(dir_path, "logs"))
     remove_file(os.path.join(dir_path,"logs", exp_name + '.log'))
     create_dir(os.path.join(dir_path,"results"))
+    create_dir(os.path.join(dir_path,"tested_results"))
     create_dir(os.path.join(dir_path,"results", exp_name))
     create_dir(os.path.join(dir_path,"metadata"))
     create_dir(os.path.join(dir_path,"metadata", exp_name))
-
+    print("This experiment is called: " + exp_name)
     return exp_name
 
 def check_nan(X):
@@ -64,18 +65,20 @@ def print_options(opt):
 
 
 def test_options(parser):
-    parser.add_argument("--exp_name", type=str, default='angle-benchmark_2022_12_06-13_22_44', help="experiment to load")
+    parser.add_argument("--exp_name", type=str, default='main_objs_2023_04_23-06_11_35', help="experiment to load")
     parser.add_argument("--epoch", type=int, default=30, help="epoch to load")
     parser.add_argument("--skip", type=str, default="NOT_IN_TRAINING", help="filename to skip during training")
     parser.add_argument("--datapath", type=str, default="", help="path to dataset used to test")
 
+    # parser.add_argument("--test_dates", type=str, default='mar-17, mar-17-1, june-1-1,june-2-4,june-6-2,june-6-3,june-6-4,june-7-1,june-7-2,june-7-3, mar-4-1,mar-7-2, mar-7-3,may-27-3,may-27-4,may-27-5, mar-22-2, mar-23-2, may-30-3, may-30-4', help="comma seperated validation dates")
     parser.add_argument("--test_dates", type=str, default='mar-17-7,mar-17-4, mar-18, mar-18-1, mar-18-4, mar-18-7, mar-2-4, mar-22-4, mar-22-5,  may-10, may-11-4, may-11-5, may-13, may-14, may-16-1, may-27-2, may-31-1,june-13-4,jun-13-5,june-13-6,june-14,june-14-2,june-14-3,june-14-4', help="comma seperated test dates")
-    parser.add_argument("--sample_limit", type=int, default=10, help="limit to the number of samlpes from each date")
+    parser.add_argument("--sample_limit", type=int, default=10000, help="limit to the number of samlpes from each date")
     parser.add_argument("--feature_names", type=str, default="fft, mrf_squared, damp", help="comma separated feature names: 'fft' | 'pwelch' | 'stft' | 'mrf' | 'mrf_squared'")
     parser.add_argument("--exp_detail", type=str, default="anles", help="comma separated feature names: 'fft' | 'pwelch' | 'stft' | 'mrf' | 'mrf_squared'")
     parser.add_argument("--objects", type=str, default='aluminum, usrp, brass, candle-jar, cardboard, ceramic, ceramic-bowl, clorox-wipes, copper, foam, foam-head, febreeze, glass-food-container, hardwood, metal-box, metal-pot, plastic, plastic-box, plastic-food-container, steel, trash-bin, wine-glass, wood', help="objects of interest we wanna look at") 
     parser.add_argument("--iter", type=str, default="all", help="objects of interest we wanna look at")
     parser.add_argument("--train_for", type=str, default="Y", help="Y, material, metal")
+    parser.add_argument("--load_dates", type=int, default=0, help="0 for load original dates, anything else to load dates from input")
 
     # network parameters
     parser.add_argument("--n1", type=int, default=3, help="number of layers before self-similarity")
@@ -122,12 +125,12 @@ def train_options(parser):
     parser.add_argument("--epoch", type=int, default=30, help="# epochs to run")
     parser.add_argument("--lr", type=float, default=0.001, help="initial learning rate")
     parser.add_argument("--weight_decay", type=float, default=0, help="weight_decay L2 penalty")
-    parser.add_argument("--train_for", type=str, default="material", help="Y, material, metal")
+    parser.add_argument("--train_for", type=str, default="Y", help="Y, material, metal")
     
     # network parameters
     parser.add_argument("--input_size", type=int, default=3250, help="length of the 1D input to the network")
     parser.add_argument("--seed", type=int, default=-1, help="manual seed for reproducibility | -1 means no manual seed")  
-    parser.add_argument("--batch_size", type=int, default=32, help="batch size")  
+    parser.add_argument("--batch_size", type=int, default=8, help="batch size")  
     parser.add_argument("--cutoff", type=int, default=10, help="indices to cut off from the beginnig of FFT")
     parser.add_argument("--first_channels", type=int, default=8, help="number of channels after the first layer")
     parser.add_argument("--loss_weights", type=str, default="1,0.9,0.3,0.3", help="weights to associate with each feautures loss function and overall loss function")
@@ -143,7 +146,9 @@ def train_options(parser):
     return opt
 
 def view_metrics_options(parser):
-    parser.add_argument("--exp_name", type=str, default='angle-benchmark_2022_12_06-13_22_44', help="experiment to load")
+    parser.add_argument("--exp_name", type=str, default='main_material_different_2023_04_23-08_05_12', help="experiment to load")
+    parser.add_argument("--tested_results", type=int, default=1, help="tested results? then put 0, else it will look at trained results")
+    parser.add_argument("--rep_to_test", type=int, default=-1, help="-1 if looking at all, else put rep number")
     
     opt = parser.parse_known_args()[0]
     print_options(opt)

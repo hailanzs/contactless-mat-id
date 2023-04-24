@@ -2,6 +2,7 @@ __pycache__/
 tmp
 nn/metadata/
 nn/results/
+nn/tested_results/
 nn/logs/
 nn/checkpoints
 *.DS_STORE

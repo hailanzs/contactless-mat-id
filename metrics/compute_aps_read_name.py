@@ -22,9 +22,15 @@ path_to_use = os.path.join(dir_path, 'results')
 all_aps, all_accs = [], []
 metadata_path = os.path.join(dir_path,"metadata", exp_name, str(0), ".mat")
 opt = sio.loadmat(metadata_path)['opt']
+
+if opt.tested_results == 0:
+    path_to_use = os.path.join(dir_path, 'tested_results')
+    
 objects = utility.parse_objects(str(opt['objects'][0][0][0]))
 train_for = opt['train_for'][0][0][0]
 for exp_rep in range(opt['reps'][0][0][0][0]):
+    if exp_rep in [7, 6, 4, 3, 1]:
+        continue
     if(train_for == 'Y'):
         output_size = len(objects)
     elif(train_for == 'metal'):

@@ -39,8 +39,13 @@ python nn/train.py --objects "aluminum, brass, copper, steel"
 ## Testing
 If you would like to only test a given dataset on an already trained model, run train.py with the experiment name created by train.py (can be found in results/, metadata/ or logs/) and the folder to the new experiments to test. More arguments can be found in utility.py.
 ```
-python nn/train.py --exp_name <exp_name_to_test> --test_dates <new_test_dates>
+python nn/test.py --exp_name <exp_name_to_test> --test_dates <new_test_dates>
 ```
+In addition, we have added pre-trained models to evaluate as needed. Bash scripts are provided to automatically run the main results and view metrics:
+```
+./scripts/test_command.sh
+```
+
 ## Viewing Results
 Copy and paste the new experiment name that is listed in the updated folders (can check any of metadata, results, logs and checkpoints folders), and input that as an argument for *processing/compute_aps.py*.
 ```
