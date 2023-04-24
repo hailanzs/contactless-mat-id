@@ -69,7 +69,7 @@ The following pieces of hardware are required to replicate our experiments:
 - Three separate surfaces (for the mmWave board, object of interest, and speaker)
 
 ### Software Installation and Instructions
-Assuming https://gitlab.engr.illinois.edu/hshanbha/contactless-material-id.git is already installed.
+Assuming git@github.com:hshanbha/contactless-mat-id.git is already installed.
 1. Clone and install the OpenRadar repository inside *contactless-material-id/data-capture/*:
 ```
 git clone -b adc-fixes https://github.com/presenseradar/openradar
