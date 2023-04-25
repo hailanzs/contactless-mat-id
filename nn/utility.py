@@ -31,6 +31,20 @@ def new_exp(name):
     print("This experiment is called: " + exp_name)
     return exp_name
 
+def new_exp_test(exp_name):
+    dir_path = os.path.dirname(os.path.realpath('nn/train.py'))
+    create_dir(os.path.join(dir_path,"checkpoints"))
+    create_dir(os.path.join(dir_path,"checkpoints",exp_name))
+    create_dir(os.path.join(dir_path, "logs"))
+    remove_file(os.path.join(dir_path,"logs", exp_name + '.log'))
+    create_dir(os.path.join(dir_path,"results"))
+    create_dir(os.path.join(dir_path,"tested_results"))
+    create_dir(os.path.join(dir_path,"results", exp_name))
+    create_dir(os.path.join(dir_path,"metadata"))
+    create_dir(os.path.join(dir_path,"metadata", exp_name))
+    print("This experiment is called: " + exp_name)
+    return exp_name
+
 def check_nan(X):
     return np.isnan(X.detach().cpu().numpy()).any()
 
