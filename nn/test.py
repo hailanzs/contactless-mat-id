@@ -22,6 +22,7 @@ if __name__ == "__main__":
     device = utility.get_device()
     opt = utility.test_options(parser=argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter))
+    utility.new_exp_test(opt.exp_name)
 
     meta_path = os.path.join(dir_path,'metadata/', opt.exp_name + "/0/.mat")
     if os.path.exists(meta_path):
@@ -59,8 +60,12 @@ if __name__ == "__main__":
                                     sample_limit=metadata_file['opt']['sample_limit'][0][0][0][0],  train_for = metadata_file['opt']['train_for'][0][0][0],
                                     feature_names=feature_names, objects_of_interest=objects)
     for rep in range(loaded_opt['reps'][0][0][0][0]):
-        checkpoint_path = get_checkpoint_path(exp_to_load + "/" + str(rep) , epoch_to_load)
-        model = torch.load(checkpoint_path, map_location=device)
+        
+        try:
+            checkpoint_path = get_checkpoint_path(exp_to_load + "/" + str(rep) , epoch_to_load)
+            model = torch.load(checkpoint_path, map_location=device)
+        except:
+            continue
         model.eval()
         result_path_sub = os.path.join(os.path.join(result_path, str(rep)))
         utility.create_dir(result_path_sub)
