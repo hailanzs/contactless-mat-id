@@ -31,8 +31,6 @@ if opt.tested_results == 0:
 objects = utility.parse_objects(str(opt_loaded['objects'][0][0][0]))
 train_for = opt_loaded['train_for'][0][0][0]
 for exp_rep in range(opt_loaded['reps'][0][0][0][0]):
-    if exp_rep in [7, 6, 4, 3, 1]:
-        continue
     if(train_for == 'Y'):
         output_size = len(objects)
     elif(train_for == 'metal'):
