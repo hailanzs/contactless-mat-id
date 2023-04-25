@@ -58,7 +58,7 @@ if __name__ == "__main__":
                                     normalize=False,val_samples=[0], 
                                     cutoff=metadata_file['opt']['cutoff'][0][0][0][0], batch_size=int(metadata_file['opt']['batch_size'][0][0][0][0]),
                                     sample_limit=metadata_file['opt']['sample_limit'][0][0][0][0],  train_for = metadata_file['opt']['train_for'][0][0][0],
-                                    feature_names=feature_names, objects_of_interest=objects,lim=80)
+                                    feature_names=feature_names, objects_of_interest=objects)
     for rep in range(loaded_opt['reps'][0][0][0][0]):
         try:
             checkpoint_path = get_checkpoint_path(exp_to_load + "/" + str(rep) , epoch_to_load)
