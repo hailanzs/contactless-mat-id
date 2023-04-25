@@ -49,7 +49,7 @@ if __name__ == "__main__":
         output_size = 2
     elif(metadata_file['opt']['train_for'][0][0][0] == 'material'):
         output_size = 7
-    print(output_size)
+    print(dir_path)
 
     result_path = os.path.join(dir_path, "tested_results", exp_to_load)
     utility.create_dir(result_path)
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     test_loader = dataset.createDataset(dataroot=dataroot,dates=dates, input_len=250,
                                     normalize=False,val_samples=[0], 
                                     cutoff=metadata_file['opt']['cutoff'][0][0][0][0], batch_size=int(metadata_file['opt']['batch_size'][0][0][0][0]),
-                                    sample_limit=metadata_file['opt']['sample_limit'][0][0][0][0],  train_for = metadata_file['opt']['train_for'][0][0][0],
+                                    sample_limit=10,  train_for = metadata_file['opt']['train_for'][0][0][0],
                                     feature_names=feature_names, objects_of_interest=objects)
     for rep in range(loaded_opt['reps'][0][0][0][0]):
         
