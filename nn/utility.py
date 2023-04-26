@@ -84,8 +84,8 @@ def test_options(parser):
     parser.add_argument("--skip", type=str, default="NOT_IN_TRAINING", help="filename to skip during training")
     parser.add_argument("--datapath", type=str, default="", help="path to dataset used to test")
 
-    # parser.add_argument("--test_dates", type=str, default='mar-17, mar-17-1, june-1-1,june-2-4,june-6-2,june-6-3,june-6-4,june-7-1,june-7-2,june-7-3, mar-4-1,mar-7-2, mar-7-3,may-27-3,may-27-4,may-27-5, mar-22-2, mar-23-2, may-30-3, may-30-4', help="comma seperated validation dates")
-    parser.add_argument("--test_dates", type=str, default='mar-17-7,mar-17-4, mar-18, mar-18-1, mar-18-4, mar-18-7, mar-2-4, mar-22-4, mar-22-5,  may-10, may-11-4, may-11-5, may-13, may-14, may-16-1, may-27-2, may-31-1,june-13-4,jun-13-5,june-13-6,june-14,june-14-2,june-14-3,june-14-4', help="comma seperated test dates")
+    parser.add_argument("--test_dates", type=str, default='mar-17, mar-17-1, june-1-1,june-2-4,june-6-2,june-6-3,june-6-4,june-7-1,june-7-2,june-7-3, mar-4-1,mar-7-2, mar-7-3,may-27-3,may-27-4,may-27-5, mar-22-2, mar-23-2, may-30-3, may-30-4', help="comma seperated validation dates")
+    # parser.add_argument("--test_dates", type=str, default='mar-17-7,mar-17-4, mar-18, mar-18-1, mar-18-4, mar-18-7, mar-2-4, mar-22-4, mar-22-5,  may-10, may-11-4, may-11-5, may-13, may-14, may-16-1, may-27-2, may-31-1,june-13-4,jun-13-5,june-13-6,june-14,june-14-2,june-14-3,june-14-4', help="comma seperated test dates")
     parser.add_argument("--sample_limit", type=int, default=10000, help="limit to the number of samlpes from each date")
     parser.add_argument("--feature_names", type=str, default="fft, mrf_squared, damp", help="comma separated feature names: 'fft' | 'pwelch' | 'stft' | 'mrf' | 'mrf_squared'")
     parser.add_argument("--exp_detail", type=str, default="anles", help="comma separated feature names: 'fft' | 'pwelch' | 'stft' | 'mrf' | 'mrf_squared'")
@@ -93,6 +93,7 @@ def test_options(parser):
     parser.add_argument("--iter", type=str, default="all", help="objects of interest we wanna look at")
     parser.add_argument("--train_for", type=str, default="Y", help="Y, material, metal")
     parser.add_argument("--load_dates", type=int, default=0, help="0 for load original dates, anything else to load dates from input")
+    parser.add_argument("--lim", type=int, default=100, help="0 for load original dates, anything else to load dates from input")
 
     # network parameters
     parser.add_argument("--n1", type=int, default=3, help="number of layers before self-similarity")
