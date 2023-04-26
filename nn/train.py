@@ -46,7 +46,8 @@ if __name__ == "__main__":
         f.write(exp_name)
     dataroot = os.path.join(dir_path, 'processed_data')
     dir_path = os.path.join(dir_path,'nn')
-    
+    dataroot = r'/home/synrg-sc1/Desktop/Sohrab_Mat_Sensing/mat_sensing_network/processed_data'
+
     if opt.environment == "same": # done
         test_dates_ = test_dates
         test_dates = val_dates
@@ -58,7 +59,7 @@ if __name__ == "__main__":
                                         normalize=False,val_samples=[0],
                                         cutoff=opt.cutoff, batch_size=opt.batch_size,
                                         sample_limit=opt.sample_limit, train_for = train_for,
-                                        feature_names=feature_names, objects_of_interest=objects, lim=(310))
+                                        feature_names=feature_names, objects_of_interest=objects)
     val_loader = dataset.createDataset(dataroot=dataroot,dates=val_dates, input_len=250,
                                     normalize=False,val_samples=[0], 
                                     cutoff=opt.cutoff, batch_size=opt.batch_size,

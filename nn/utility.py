@@ -7,11 +7,6 @@ import argparse
 import scipy.io as sio
 
 
-def get_free_gpu():
-    os.system('nvidia-smi -q -d Memory |grep -A4 GPU|grep Free >tmp')
-    memory_available = [int(x.split()[2]) for x in open('tmp', 'r').readlines()]
-    return np.argmax(memory_available)
-
 def create_dir(this_path):
     if not os.path.isdir(this_path):
         os.mkdir(this_path)   
