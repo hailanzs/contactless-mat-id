@@ -8,6 +8,6 @@ statistics
 sklearn
 natsort
 logging
-multiprocessing
-heapq
+# multiprocessing
+# heapq
 # vlc # uncomment to run sounds in data capture
