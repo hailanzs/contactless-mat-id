@@ -165,7 +165,7 @@ def view_metrics_options(parser):
     return opt
 
 def get_device():
-    return torch.device("cuda:" + str(get_free_gpu()) if torch.cuda.is_available() else "cpu")
+    return torch.device("cuda:" + str(0) if torch.cuda.is_available() else "cpu")
 
 def remove_empty_folders(root):
     folders = list(os.walk(root))[1:]
