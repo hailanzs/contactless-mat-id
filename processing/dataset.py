@@ -13,15 +13,31 @@ from scipy.signal import hilbert
 import scipy.io as sio
 
 def find_speaker_idx(X):
-    X_fft = np.squeeze(X['X_power'].T)
-    X_fft /= max(X_fft)
-    peaks, _ = scipy.signal.find_peaks(X_fft[5:40],height=0.1)
-    peaks += 5
+    """
+    Takes as input the processed radar signal X, and outputs the range index at which the speakder is detected.
+    - Inputs: 
+        - X: Procssed radar signal. 
+    - Outputs:
+        - idx: integer index at which the speaker is detected.
+    """
+    X_fft = np.squeeze(X['X_power'].T) # First we compute the FFT of the received power. 
+    X_fft /= max(X_fft) # normalize the FFT 
+
+    peaks, _ = scipy.signal.find_peaks(X_fft[5:40],height=0.1) # Find the peaks of the FFT.
+    peaks += 5 # We add 5 to the indices, since the search started from index 5 in previous line.
     stds = []
-    for p in peaks:
+    for p in peaks: # For each of the peaks found,
+        # we pass the **phase** of the processed radar signal X through a high pass filter. 
+        # The sampling frequency is 250 Hz, and the cutt-off frequency of the HP filter has been
+        # tuned to be 15 Hz. This is to remove any noisy input that may corrupt the rest of the 
+        # processing.
+        # We then take the standard deviation of the resulting phase, that shows how much change is seen
+        # on the phase for that particular peak. 
         ph_std = np.std(processing.butter_highpass_filter(X['X_phase_all'][:,p], 15, 250)) 
         stds.append(ph_std)
+    # We then find the maximum standard deviation seen on the phases around the peak ranges.
     max_std = max(stds)
+    # The index corresponding to the maximum standard deviation is detected as the speaker index.
     idx = peaks[stds.index(max_std)]
     return idx
 
@@ -328,7 +344,9 @@ class MatDataset(data_utils.Dataset):
 
 
 class FastDataset(data_utils.Dataset):
-    """This version uses the MatDataset and returns the already loaded data."""
+    """This version uses the MatDataset and returns the already loaded data. This is to make the process of learning faster. 
+    While training, the class matDataset loads all the data at once, and then different instances of FastDataset
+    simply call information from MatDataset whenever needed."""
     def __init__(self, X, Y, names, objects):   
         """ 
         * n_obj: 
@@ -379,37 +397,92 @@ class FastDataset(data_utils.Dataset):
 def createDataset(dataroot="/media/synrg-sc1/HardDisk2-8TB/Mat_Sensing/backup/Box",
                   dates=None, input_len=250, normalize=False, val_samples=0.3,train_for='Y',
                   batch_size=4, cutoff=10, sample_limit=10000000, feature_names=['fft', 'mrf_squared'], lim=10000000, objects_of_interest=["aluminum", "brass", "copper", "steel"]):
-    """create the dataset given the dataroot, dates, input_len and normalize (see __initiate__ in matDataset)"""
+    """create the dataset given the dataroot, dates, input_len and normalize (see __initiate__ in matDataset)
+    - Inputs: 
+        - dates: Experiment corresponding to the set of samples associated with that date. Experiments on different dates
+        mean the experiments where collected under different conditions. On the other hand, same dates mean experiments 
+        we conducted under similar conditions.
+        - input_len: the length of the FFT after taking the first half (so default is FFT of length 500 which is then halved to 250.)
+        - normalize: whether or not to normalize the final frequency spectrum.
+        - val_samples: 
+            -- If a scalar number: the porition of the data that is used for validation. It is a number between 0 and 1. Defaulted to 0.3.
+            -- If a 2-element list: val_samples[0] is the portion of data used for validation. val_samples[1] is the portion of data used for testing.
+        - train_for: Whether we are training for objects ('Y'), metals ('metal') or materials ('metarial'). 
+        - batch_size: batch size used in the dataset. Defaulted to 4.
+        - cutoff:  value to cutoff after taking the FFT of the phase of the bin where the object is.
+        - sample_limit: Maximum number of samples to load. This can be used for debugging purposes. 
+            Example: set to 100 to overfit the network to the training set. Set to 1 to skip the data loading delay.
+        - feature_names: List containing string of features to use to train the network. See default values.
+        - lim: Maximum length of the radar signal data to consider. If the length exceeds this value for a sample, that sample is simply ignored.
+        - objects_of_interest: Object types on which the training will take place. Objects not appeared in this list will be simply ignored.
+    - Outputs: 
+        - 
+        """
     if dates is None:
+        # if there are no dates, the dates default to the ones below. It is recommended to NOT leave dates empty.
         dates = ["jan-25-2", "jan-28", "jan-28-1"]
-        
+    
+    # location of the dataset. Be sure to copy the data set in the correct folder.
     datapaths = [os.path.join(dataroot, date) for date in dates]
     
+
+    # initiate lists of all the data that needs to be loaded.
     all_data = []
     all_objects = []
     all_names = []
+    
+    # make sure feature_names have the correct format (wrap in brackets case they are not inside brackets)
     if(isinstance(feature_names, str)):
         feature_names = [feature_names]
+
+    # first, we load all the data from disk given the input parameters.
     A = MatDataset(datapath=datapaths, dataroot=dataroot, input_len=input_len, normalize=normalize, cutoff=cutoff, feature_names=feature_names, objects_of_interest=objects_of_interest)
     
+    # then, for every sample in the dataset, we go through them one by one.
     for i, sample in enumerate(A):
+        # first, we look at X, and name
         X = sample['X']
         name = sample['name']
+
+        # If X is None, this sample is simply ignored and we continue onto the next sample.
+        # If it is not None, then we process this sample
         if X is not None:
+
+            # We pick the Y for which we want to train the dataset.
             Y = sample[train_for]
+
+            # Ignore this sample if the length of the signal exceeds the limit set by the input arguments.
             if(all_objects.count(Y) > lim):
                 continue
-            all_data += [X]
-            all_objects += [Y]
-            all_names += [name]
+
+            # if all is well, we append the current sample to the data as follows:
+            all_data += [X] # append X, the input signal
+            all_objects += [Y] # append Y, the groundtruth
+            all_names += [name] # append name, the path and filename of the current sample.
+
+            # If we alreayd have loaded #sample_limit number of samples, we break and get out of this loop.
+            # We note that we cannot put this if statement in MatDataset, since we do not know whether or not 
+            # some samples end up not being used.
             if i >= sample_limit:
                 print("hit sample limit of ", i)
                 break
+                
+            # if all goes well, we print out the report of the processed sampled added to the dataset.
             print(f"processed sample {i}...", end='\r')
+
         else:
+            # Print out if for any reason, we skip this sample. This can be due to:
+                # X being None
+                # Y exceeding the limit length
+                # everything else should raise an error.
             print(f"skipped sample {i}!!", end='\r')
+
+    # since everything was being printed on the same line, we put a \n to go to next line.
     print("\n")
-        
+
+    # by default, A.objects includes all the objects encountered in the loaded dataset.
+    # However, if we want to train for only material types or metal vs non-metal, we need to change 
+    # the variable objects. The next few lines to precisely that. 
     if train_for == 'material':
         objects = [0,1,2,3,4,5,6]
     elif train_for == 'metal':
@@ -417,14 +490,21 @@ def createDataset(dataroot="/media/synrg-sc1/HardDisk2-8TB/Mat_Sensing/backup/Bo
     else:
         objects = A.objects
         
-        
+    # Here we print out all the objects that we are going to train for, along with the number of objects.
     for obj in objects:
         print(str(obj) + ": ", (all_objects.count(obj)))
-        
+    
+    # Here we print out the total sum of all samples loaded into the dataset.
     print("Total Experiments:", (len(all_objects)))
+
+    # Here we wrap the data, objects, and names into a datset that can be consumed by PyTorch.
     fast_dataset = FastDataset(all_data, all_objects, all_names, objects)
     total_length = len(fast_dataset)
 
+    # There are three scenarios:
+    # Scenario 1. We are training, validating, and testing using this loaded data.
+    # In this case, we need to split the data into train, validation, and test. 
+    # We then use the pytorch data_utils library to create a loader for PyTorch.
     if len(val_samples) > 2:
         val_length = int(total_length * val_samples[1]) - 1
         test_length = int(total_length * val_samples[2]) - 1
@@ -434,6 +514,10 @@ def createDataset(dataroot="/media/synrg-sc1/HardDisk2-8TB/Mat_Sensing/backup/Bo
         val_loader = data_utils.DataLoader(val_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
         test_loader = data_utils.DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
         return train_loader, val_loader, test_loader
+    # Scenario 2. We are training and validating with the loaded data, but not testing.
+    # In this case, we need to split the data into train and validation.
+    # We then use the pytorch data_utils library to create a loader for PyTorch.
+
     elif len(val_samples) > 1:
         val_length = int(total_length * val_samples[0]) - 1
         test_length = total_length - val_length
@@ -441,6 +525,9 @@ def createDataset(dataroot="/media/synrg-sc1/HardDisk2-8TB/Mat_Sensing/backup/Bo
         val_loader = data_utils.DataLoader(val_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
         test_loader = data_utils.DataLoader(test_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
         return val_loader, test_loader
+    # Scenario 3. We are training with the loaded data, but not validating nor testing.
+    # In this case, we do not need to split the data, as all of it will be used for training.
+    # We then use the pytorch data_utils library to create a loader for PyTorch.
     else:
         data_loader = data_utils.DataLoader(fast_dataset, batch_size=batch_size, shuffle=True, num_workers=4)
         return data_loader
