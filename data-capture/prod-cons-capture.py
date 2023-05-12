@@ -116,7 +116,7 @@ if __name__ == "__main__":
     if not os.path.isdir(exp_path):
         os.mkdir(exp_path)
 
-    if False:
+    if False: # if want to take picture of setup prior, set True
         camera = cv2.VideoCapture(0)
         for i in range(2):
             return_value, image = camera.read()

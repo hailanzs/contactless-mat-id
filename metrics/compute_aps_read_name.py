@@ -53,17 +53,17 @@ for exp_rep in range(opt_loaded['reps'][0][0][0][0]):
             gt = A['gt']
             batch_size = x1.shape[0]
             for batch in range(batch_size):
-                if True:
                     
-                    y = np.argmax(output[batch,:])
-                    
-                    reind_gt = int(gt[0][batch])
-                    con_mat[reind_gt, int(y)] += 1
-                    scores += [list(output[batch, :])]
-                    true_label = np.zeros(shape=(n_obj,))
-                    true_label[reind_gt] = 1
-                    true_labels += [list(true_label)]
+                y = np.argmax(output[batch,:])
+                
+                reind_gt = int(gt[0][batch])
+                con_mat[reind_gt, int(y)] += 1
+                scores += [list(output[batch, :])]
+                true_label = np.zeros(shape=(n_obj,))
+                true_label[reind_gt] = 1
+                true_labels += [list(true_label)]
 
+    # calculate AP
     ap = average_precision_score(true_labels, [softmax(score) for score in scores], average=None)
     print("Iteration: " + str(exp_rep))
     print("average precision:")
