@@ -16,6 +16,7 @@ def get_checkpoint_path(exp, epoch):
 
 if __name__ == "__main__":
     
+    # get experiment information
     dir_path = os.path.dirname(os.path.realpath('README.md'))
     dataroot = os.path.join(dir_path, 'processed_data')
     dir_path = os.path.join(dir_path,'nn')
@@ -78,6 +79,8 @@ if __name__ == "__main__":
             x1, x2, x3, groundtruth, name = (X1).to(device, dtype=torch.float), (X2).to(device, dtype=torch.float), (X3).to(device, dtype=torch.float), data['Y'].to(device, dtype=torch.long), data['name']
                     
             output, output1, output2, output3 = model(x1, x2, x3)
+
+            #save output
             sio.savemat(result_path_sub + "/" + str(ii) + ".mat", mdict={
                             'x1':x1.detach().cpu().numpy(),
                             'x2':x2.detach().cpu().numpy(),

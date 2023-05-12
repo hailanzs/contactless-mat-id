@@ -25,6 +25,7 @@ if __name__ == "__main__":
     exp_name = utility.new_exp(opt.exp_name)
     dataset_path = os.path.join(opt.datapath, '*.mat')
     
+    # parse arguments to be readable
     train_dates = utility.parse_dates(opt.train_dates)
     val_dates = utility.parse_dates(opt.val_dates)
     test_dates = utility.parse_dates(opt.test_dates)
@@ -32,6 +33,7 @@ if __name__ == "__main__":
     loss_weights = utility.parse_loss_weights(opt.loss_weights)
     objects = utility.parse_objects(opt.objects)
     train_for = opt.train_for
+    # change NN output size depending on what we are classifying
     if(train_for == 'Y'):
         output_size = len(objects)
     elif(train_for == 'metal'):
@@ -47,7 +49,7 @@ if __name__ == "__main__":
     dataroot = os.path.join(dir_path, 'processed_data')
     dir_path = os.path.join(dir_path,'nn')
     
-    if opt.environment == "same": # done
+    if opt.environment == "same": 
         test_dates_ = test_dates
         test_dates = val_dates
         val_dates = test_dates_
@@ -208,6 +210,7 @@ if __name__ == "__main__":
                     if(len(output.shape) <= 1):
                         output, output1, output2, output3 = torch.reshape(output, (1, output_size)), torch.reshape(output1, (1, output_size)), torch.reshape(output2, (1, output_size)), torch.reshape(output3, (1, output_size))
 
+                    # save output
                     sio.savemat(test_path + "/" + str(ii) + ".mat", mdict={
                         'x1':x1.detach().cpu().numpy(),
                         'x2':x2.detach().cpu().numpy(),
