@@ -14,7 +14,7 @@ git clone git@github.com:hshanbha/contactless-mat-id.git
 cd contactless-material-id
 pip install -r requirements.txt
 ```
-3. Download dataset from [this Google Drive](https://drive.google.com/drive/folders/1QHKSPK9nfHmPVjcHXf1ZVb9CegpqqyEz?usp=sharing), unzip and place in *contactless-material-id/*.
+3. Download dataset from [Zenodo](https://doi.org/10.5281/zenodo.7913318), unzip and place in *contactless-material-id/*.
 ## Training
 In order to train with the default commands for the main results, change permissions for the run script (needs to be done once):
 ```
@@ -91,14 +91,15 @@ pip install -r requirements.txt
 ### Experiment Set Up
 In order to set up the experiments, connect the 1843BOOST Evaluation Board and DCA1000 as instructed on TI's user guide. In addition, download and install mmWave Studio to program the mmWave device. 
 
-1. Connect the mmWave device and speaker to the same computer as the signal to play sound and record from the radar are synchronized. However, you may also separate the two devices if sychronization is retained. Set up the experiments similar to the setups shown in the picture below. Essentially the object is placed between the radar and speaker. Speaker is facing the object; radar is facing the object. 
+1. Connect the mmWave device and speaker to the same computer as the signal to play sound and record from the radar are synchronized. However, you may also separate the two devices if sychronization is retained. Set up the experiments similar to the setups shown in the picture below. Essentially the object is placed between the radar and speaker. Speaker is facing the object; radar is facing the object. All three items are on separate surfaces. 
 
 ![plot](https://github.com/hshanbha/contactless-mat-id/blob/main/images/setup.png?raw=true)
 
 2. Turn on mmWave Studio and run *contactless-material-id/data-capture/run.lua*. Make sure to change the hardcoded COM port to match the one of the system. 
 3. Once the radar is capture data, exit the mmWave Studio window and open Task Manager and kill the process starting with DCA1000. 
-4. Open *contactless-material-id/data-capture/prod-cons-capture.lua*, under the main function, change the number of **iterations** to the desired number, change the **exp_object** to the label for the current object, and **date** to the folder name to save the current set of experiments. 
-5. Run *contactless-material-id/data-capture/prod-cons-capture.py* to capture the data.
+4. Volume will depend on the system, but make sure average power is set to 58 dB. This was set at 75 for our system.
+5. Open *contactless-material-id/data-capture/prod-cons-capture.lua*, under the main function, change the number of **iterations** to the desired number, change the **exp_object** to the label for the current object, and **date** to the folder name to save the current set of experiments. 
+6. Run *contactless-material-id/data-capture/prod-cons-capture.py* to capture the data.
 
 ### Data Processing Pipeline
 (Optionally, but recommened): Calibrate the XWR1843BOOST radar and input the calibration matrix to *contactless-material-id/data-capture/save_calib_data.m*
