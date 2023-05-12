@@ -58,13 +58,13 @@ python metrics/compute_aps.py --exp_name artifact_eval_2023_04_04-02_52_23
 ```
 The averaged accuracy will be printed to the terminal for each catergory, depending on the training mode (objects, materials).
 
-## Expected Results
-| Experiment                             | Acc  | Location                              |
-| -------------------------------------- | ---- | --------------------------------------|
-| Material-wise, Similar Environments    | 83%  | nn/checkpoints/main_material          |
-| Material-wise, Different Environments  | 71%  | nn/checkpoints/main_material_different|
-| Object-wise, Similar Environments      | 74%  | nn/checkpoints/main_objs              |
-| Object-wise, Different Environments    | 68%  | nn/checkpoints/main_objs_different    |
+## Expected Results (see Sec.6 of paper)
+| Experiment                             | Acc / STD | Location                           |
+| -------------------------------------- | --------- | --------------------------------------|
+| Material-wise, Similar Environments    | 83% / 3   | nn/checkpoints/main_material          |
+| Material-wise, Different Environments  | 71% / 1   | nn/checkpoints/main_material_different|
+| Object-wise, Similar Environments      | 74% / 4   | nn/checkpoints/main_objs              |
+| Object-wise, Different Environments    | 68% / 3   | nn/checkpoints/main_objs_different    |
 
 ## Data Capture and Processing Pipeline
 Here we describe the process for capturing new experiments to run RFVibe's network on. The experiment pipeline is as follow: setup (hardware and software), data collection, and post-processing.
