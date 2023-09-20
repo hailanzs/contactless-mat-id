@@ -15,7 +15,7 @@ def consumer(q, index):
 
 def main(exp_num,exp_object, date,num_frms,sound_name,sleep_time,sleep_time_sound, sound_path, exp_path):
 
-    num_producers = 3
+    num_producers = 2
     num_consumers = 1
     max_queue_size = 10000
 
@@ -27,6 +27,7 @@ def main(exp_num,exp_object, date,num_frms,sound_name,sleep_time,sleep_time_soun
     consumers = []
     # Create our producer processes by passing the producer function and it's arguments
     producers.append(Process(target=save_data_1843_jan12, args=(q_main, 0, exp_num,exp_object,date,num_frms,sleep_time, exp_path)))
+    producers.append(Process(target=play_sound, args=(q_main, 1, sound_name, exp_num, date, sleep_time_sound, sound_path, exp_path)))
 
     
     # Create consumer processes
@@ -66,6 +67,8 @@ def play_sound(sound_name, exp_num, date, sleep_time_sound, sound_path, exp_path
         sound_start = time.time()
         print("starting chirp: " + str(sound_start))
         print(sound_name)    
+	# plays the sound specified by sound_path and sound name
+	# requires vlc package and VLC installed (installation instructions online)
         player = vlc.MediaPlayer(os.path.join(sound_path, sound_name) + ".mp3")
         player.play()
         time.sleep(sleep_time_sound)
@@ -75,6 +78,7 @@ def play_sound(sound_name, exp_num, date, sleep_time_sound, sound_path, exp_path
 
         if not os.path.isdir(exp_path):
             os.mkdir(exp_path)
+	# saves the sound start and end times in the same mat file as the data
         my_dict = sio.loadmat(os.path.join(exp_path, date, str(exp_num) + ".mat"))
         my_dict["sound_start"] = sound_start
         my_dict["sound_end"] = sound_end
